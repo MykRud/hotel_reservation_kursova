@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs row d-flex">
+                <li class="nav-item col-3" data-aos="zoom-in">
+                    <a class="nav-link active show" href="/api/allClients">
+                        <i class="ri-gps-line"></i>
+                        <h4 class="d-none d-lg-block">Clients</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="100">
+                    <a class="nav-link" href="/api/allReservations">
+                        <i class="ri-body-scan-line"></i>
+                        <h4 class="d-none d-lg-block">Reservations</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="200">
+                    <a class="nav-link" href="/api/allRooms">
+                        <i class="ri-sun-line"></i>
+                        <h4 class="d-none d-lg-block">Rooms</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="300">
+                    <a class="nav-link" href="/api/hotel">
+                        <i class="ri-store-line"></i>
+                        <h4 class="d-none d-lg-block">Hotel</h4>
+                    </a>
+                </li>
+            </ul>
