@@ -43,7 +43,32 @@
     <section id="features" class="features">
         <div class="container">
 
-            <%@ include file="jspf/nav.jspf" %>
+            <ul class="nav nav-tabs row d-flex">
+                <li class="nav-item col-3" data-aos="zoom-in">
+                    <a class="nav-link" href="/api/allClients">
+                        <i class="ri-gps-line"></i>
+                        <h4 class="d-none d-lg-block">Clients</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="100">
+                    <a class="nav-link" href="/api/allReservations">
+                        <i class="ri-body-scan-line"></i>
+                        <h4 class="d-none d-lg-block">Reservations</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="200">
+                    <a class="nav-link active show" href="/api/allRooms">
+                        <i class="ri-sun-line"></i>
+                        <h4 class="d-none d-lg-block">Rooms</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="300">
+                    <a class="nav-link" href="/api/hotel">
+                        <i class="ri-store-line"></i>
+                        <h4 class="d-none d-lg-block">Hotel</h4>
+                    </a>
+                </li>
+            </ul>
 
             <div class="tab-content" data-aos="fade-up">
 
@@ -57,6 +82,8 @@
                                         <h2><strong>${available_rooms}</strong>/${rooms.totalElements} rooms available</h2>
                                     </div>
 
+                                    <p class="text-primary">${message}</p>
+
                                     <div class="row">
 
                                     <c:set var="colors" value="${['#ff689b', '#e9bf06', '#3fcdc7', '#41cf2e', '#d6ff22', '#4680ff', '#4287f5', '#95f542']}" />
@@ -65,7 +92,7 @@
                                         <div class="col-lg-3 col-md-6 mt-5">
                                             <div class="icon-box" data-aos="zoom-in-left"  data-aos-delay="${loop.index}00">
                                                 <div class="icon"><i class="bi bi-house" style="color: ${colors[loop.index]};"></i></div>
-                                                <h4 class="title"><a href="" data-toggle="modal" data-target="#exampleModalCenter2" data-bs-id="${room.id}">Room ${room.id}         <i class="bi bi-patch-plus-fill"></i></a></h4>
+                                                <h4 class="title" <c:if test="${room.isReserved == true}">style="pointer-events: none;"</c:if>><a href="" data-bs-toggle="modal" data-bs-target="#exampleModalCenter2" data-bs-id="${room.id}">Room ${room.id}         <i class="bi bi-patch-plus-fill"></i></a></h4>
                                                 <p class="description"><strong>Price</strong>: ${room.price}$. <strong>Comfort</strong>: ${room.comfort.comfortName}
                                                     <br />
                                                     <c:if test="${room.isReserved == false}">
@@ -147,7 +174,6 @@
                             <div class="col-lg-8 mt-lg-0" data-aos="fade-left">
 
                                 <form:form action="/api/addRoom" method="post" role="form" class="php-email-form" modelAttribute="submit_room">
-
                                     <div class="form-group mt-3">
                                         <form:label for="capacity" path="capacity" class="col-sm-6 col-form-label">Capacity:</form:label>
                                         <form:input type="text" name="capacity" path="capacity" class="form-control" id="capacity" placeholder="Capacity" required="true" />
@@ -212,7 +238,7 @@
 
                                     <input type="hidden" name="roomId" class="form-control" id="roomId" />
 
-                                        <select path="clientId" class="form-select" aria-label="Choose client">
+                                        <select name="clientId" class="form-select" aria-label="Choose client">
                                             <c:forEach items="${clients}" var="client">
                                                 <option value="${client.id}">${client.lastName} ${client.firstName}</option>
                                             </c:forEach>
@@ -252,7 +278,14 @@
     </div>
 </div>
 
-<%@ include file="jspf/footer.jspf" %>
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container">
+        <h3>Hotel Reservation System</h3>
+        <p>Developed by Artemyuk Artem</p>
+    </div>
+</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

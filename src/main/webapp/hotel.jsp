@@ -1,3 +1,5 @@
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,38 +7,31 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Selecao Bootstrap Template - Index</title>
+    <title>Hotel</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="${request.contextPath}/assets/img/favicon.png" rel="icon">
+    <link href="${request.contextPath}/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="${request.contextPath}/assets/css/style.css" rel="stylesheet">
     <link href="${request.contextPath}/assets/css/additional-styles.css" rel="stylesheet">
 
-    <!-- =======================================================
-    * Template Name: Selecao
-    * Updated: Mar 10 2023 with Bootstrap v5.2.3
-    * Template URL: https://bootstrapmade.com/selecao-bootstrap-template/
-    * Author: BootstrapMade.com
-    * License: https://bootstrapmade.com/license/
-    ======================================================== -->
 </head>
 
 <body>
@@ -49,25 +44,25 @@
 
             <ul class="nav nav-tabs row d-flex">
                 <li class="nav-item col-3" data-aos="zoom-in">
-                    <a class="nav-link" href="allClients.html">
+                    <a class="nav-link" href="/api/allClients">
                         <i class="ri-gps-line"></i>
                         <h4 class="d-none d-lg-block">Clients</h4>
                     </a>
                 </li>
                 <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="100">
-                    <a class="nav-link" href="allReservations.html">
+                    <a class="nav-link" href="/api/allReservations">
                         <i class="ri-body-scan-line"></i>
                         <h4 class="d-none d-lg-block">Reservations</h4>
                     </a>
                 </li>
                 <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="200">
-                    <a class="nav-link" href="allRooms.html">
+                    <a class="nav-link" href="/api/allRooms">
                         <i class="ri-sun-line"></i>
                         <h4 class="d-none d-lg-block">Rooms</h4>
                     </a>
                 </li>
                 <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="300">
-                    <a class="nav-link active show" href="hotel.html">
+                    <a class="nav-link active show" href="/api/hotel">
                         <i class="ri-store-line"></i>
                         <h4 class="d-none d-lg-block">Hotel</h4>
                     </a>
@@ -82,7 +77,7 @@
                             <h3>Hotel Reservation System</h3>
                             <p>Developed by Artemyuk Artem</p>
                             <p>
-                                By now, hotel has 15 clients registered, 15 reservations and 25 rooms.
+                                By now, hotel has ${numberOfClients} clients registered, ${numberOfReservations} reservations and ${numberOfRooms} rooms.
                             </p>
                             <p>
                                 In this web-site, you can go either with main tabs or with navigable bar elements. More functions available for administrators of the system.
@@ -110,19 +105,26 @@
 
 </main><!-- End #main -->
 
-<%@ include file="jspf/footer.jspf" %>
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container">
+        <h3>Hotel Reservation System</h3>
+        <p>Developed by Artemyuk Artem</p>
+    </div>
+</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="assets/vendor/aos/aos.js"></script>
-<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="${request.contextPath}/assets/vendor/aos/aos.js"></script>
+<script src="${request.contextPath}/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${request.contextPath}/assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="${request.contextPath}/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="${request.contextPath}/assets/vendor/swiper/swiper-bundle.min.js"></script>
 
 <!-- Template Main JS File -->
-<script src="assets/js/main.js"></script>
+<script src="${request.contextPath}/assets/js/main.js"></script>
 
 </body>
 

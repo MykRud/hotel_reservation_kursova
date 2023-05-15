@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 @RequestMapping("/api")
@@ -74,11 +75,11 @@ public class MainFrontController {
 
     // Reservation section
     @GetMapping("allReservations")
-    public ModelAndView getAllReservations(@RequestParam(name = "m", required = false) String m){
+    public ModelAndView getAllReservations(@RequestParam(name = "page", defaultValue = "1") int page, @RequestParam(name = "m", required = false) String m){
         ModelAndView mv = new ModelAndView("/allReservations.jsp");
 
-        List<Reservation> reservations = reservationService.getAllReservations();
-        mv.addObject("reservations", reservations);
+        PageableDto<Reservation> reservationsPage = reservationService.getReservationsPage(page, 8);
+        mv.addObject("reservations", reservationsPage);
 
         if(m != null)
             mv.addObject("message", m);
@@ -87,29 +88,43 @@ public class MainFrontController {
     }
 
     @PostMapping("addReservation")
-    public ModelAndView addReservationLogic(@RequestParam("roomId") Integer roomId, @RequestParam("clientId") Integer clientId,
-                                            @RequestParam("price") Double price, @RequestParam("arrivalDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date arrivalDate, @RequestParam("releaseDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate){
+    public ModelAndView addReservationLogic(@RequestParam("roomId") Integer roomId,
+                                            @RequestParam("clientId") Integer clientId,
+                                            @RequestParam("price") Double price,
+                                            @RequestParam("arrivalDate")
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date arrivalDate,
+                                            @RequestParam("releaseDate")
+                                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date releaseDate){
         Client client = clientService.getClient(clientId);
         double discount = discountService.calculateDiscount(clientId);
+        long daysOfReservations = TimeUnit.MILLISECONDS.toDays(
+                releaseDate.getTime()) - TimeUnit.MILLISECONDS.toDays(arrivalDate.getTime());
         Reservation reservation = Reservation.builder()
-                .price(price * (discount / 100))
+                .price((price * ((100.0 - discount) / 100)) * daysOfReservations)
                 .arrivalDate(arrivalDate)
                 .releaseDate(releaseDate)
+                .isPaid(true)
                 .client(client)
                 .room(roomService.getRoom(roomId))
                 .build();
+
+        Room room = roomService.getRoom(roomId);
+        if(room.getPrice() > price)
+            return new ModelAndView("redirect:/api/allReservations?m=Cannot add reservation");
 
         Reservation savedReservation = reservationService.addReservation(reservation);
         if(savedReservation != null) {
             client.getReservations().add(reservation);
             clientService.addClient(client);
+            room.setIsReserved(true);
+            roomService.addRoom(room);
             return new ModelAndView("redirect:/api/allReservations?id=" + savedReservation.getId());
         } else {
             return new ModelAndView("redirect:/api/allReservations?m=Cannot add reservation");
         }
     }
 
-    @DeleteMapping("deleteReservation")
+    @PostMapping("deleteReservation")
     public ModelAndView deleteReservation(@RequestParam("id") Integer id){
         Reservation foundReservation = reservationService.getReservation(id);
         if(foundReservation == null)
@@ -144,6 +159,7 @@ public class MainFrontController {
         Client client = Client.builder()
                 .firstName(addClientRequest.getFirstName())
                 .lastName(addClientRequest.getLastName())
+                .comment(addClientRequest.getComment())
                 .build();
 
         Client savedClient = clientService.addClient(client);

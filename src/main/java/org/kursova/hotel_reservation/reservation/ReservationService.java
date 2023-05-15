@@ -19,8 +19,8 @@ public class ReservationService {
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find reservation with id " + reservationId));
     }
 
-    public PageableDto<Reservation> getReservationsPage(int page){
-        Page<Reservation> pageOfReservations = reservationRepo.findAll(PageRequest.of(page - 1, 10));
+    public PageableDto<Reservation> getReservationsPage(int page, int size){
+        Page<Reservation> pageOfReservations = reservationRepo.findAll(PageRequest.of(page - 1, size));
         List<Reservation> listOfReservations = pageOfReservations.stream().toList();
         return new PageableDto<>(pageOfReservations.getTotalElements(), pageOfReservations.getTotalPages(), page, listOfReservations);
     }

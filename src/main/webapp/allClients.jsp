@@ -44,7 +44,32 @@
     <section id="features" class="features">
         <div class="container">
 
-            <%@ include file="jspf/nav.jspf" %>
+               <ul class="nav nav-tabs row d-flex">
+                <li class="nav-item col-3" data-aos="zoom-in">
+                    <a class="nav-link active show" href="/api/allClients">
+                        <i class="ri-gps-line"></i>
+                        <h4 class="d-none d-lg-block">Clients</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="100">
+                    <a class="nav-link" href="/api/allReservations">
+                        <i class="ri-body-scan-line"></i>
+                        <h4 class="d-none d-lg-block">Reservations</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="200">
+                    <a class="nav-link" href="/api/allRooms">
+                        <i class="ri-sun-line"></i>
+                        <h4 class="d-none d-lg-block">Rooms</h4>
+                    </a>
+                </li>
+                <li class="nav-item col-3" data-aos="zoom-in" data-aos-delay="300">
+                    <a class="nav-link" href="/api/hotel">
+                        <i class="ri-store-line"></i>
+                        <h4 class="d-none d-lg-block">Hotel</h4>
+                    </a>
+                </li>
+            </ul>
 
             <div class="tab-content" data-aos="fade-up">
 
@@ -59,12 +84,14 @@
                                         <h2>${clients.totalElements} clients</h2>
                                     </div>
 
+                                    <p class="text-primary">${message}</p>
+
                                     <div class="row">
                                     <c:forEach items="${clients.elements}" var="client" varStatus="loop">
                                         <div class="col-lg-3 col-md-6 mt-5">
                                             <div class="icon-box" data-aos="zoom-in-left" data-aos-delay="${loop.index}00">
                                                 <div class="icon"><i class="bi bi-person-hearts" style="color: ${colors[loop.index]};"></i></div>
-                                                <h4 class="title"><a href="">${client.firstName} ${client.lastName}</a></h4>
+                                                <h4 class="title"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModalCenter1" data-bs-comment="${client.comment}">${client.firstName} ${client.lastName}</a></h4>
                                                 <p class="description">User has ${client.reservations.size()} reservations</p>
                                             </div>
                                         </div>
@@ -148,6 +175,9 @@
                                     <div class="form-group mt-3">
                                         <form:input type="text" name="lastName" path="lastName" class="form-control" id="lastName" placeholder="Last name" required="true" />
                                     </div>
+                                    <div class="form-group mt-3">
+                                        <form:textarea class="form-control" name="comment" path="comment" rows="5" placeholder="Comment" required="true"></form:textarea>
+                                    </div>
 
                                     <div class="my-3">
                                         <div class="loading">Loading</div>
@@ -171,7 +201,34 @@
     </div>
 </div>
 
-<%@ include file="jspf/footer.jspf" %>
+<!-- Modal 2-->
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Comment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="client-comment"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="container">
+        <h3>Hotel Reservation System</h3>
+        <p>Developed by Artemyuk Artem</p>
+    </div>
+</footer><!-- End Footer -->
+
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -180,7 +237,18 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+<script>
+var exampleModal = document.getElementById('exampleModalCenter1')
+exampleModal.addEventListener('show.bs.modal', function (event) {
+  // Button that triggered the modal
+  var button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+  var comment = button.getAttribute('data-bs-comment')
 
+  document.getElementById("client-comment").innerHTML = comment
+})
+
+</script>
 
 <!-- Vendor JS Files -->
 <script src="${request.contextPath}/assets/vendor/aos/aos.js"></script>
